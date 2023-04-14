@@ -152,7 +152,11 @@ export default {
       columns,
       fixedColumnFlag: "order-tracking",
       defaultFixedColumnSelect: [],
+      cloneCloumns: [],
     };
+  },
+  created() {
+    this.cloneCloumns = JSON.parse(JSON.stringify(this.columns));
   },
   methods: {
     onFixedColumn(value) {
@@ -160,27 +164,26 @@ export default {
       const ind = this.defaultFixedColumnSelect.indexOf(value.key);
       if (ind === -1) {
         this.defaultFixedColumnSelect = [
-          ...new Set([...this.defaultFixedColumnSelect, value.key]),
+          ...this.defaultFixedColumnSelect,
+          value.key,
         ];
       } else {
         this.defaultFixedColumnSelect.splice(ind, 1);
       }
-      console.log(this.defaultFixedColumnSelect);
-      // 将选中的列和未选中的列排序存放到newArr数组中
-      const arr = [];
-      const arr1 = [];
+
+      // 将选中的列和未选中的列排序存放到newArr数组中  方法一
+      let arr = [];
+      let arr1 = [];
       let newArr = [];
-      const showColumns = JSON.parse(JSON.stringify(this.columns));
-      showColumns.forEach((item) => {
-        if (this.defaultFixedColumnSelect.indexOf(item.key) !== -1) {
+      this.cloneCloumns.forEach((item) => {
+        if (this.defaultFixedColumnSelect.includes(item.key)) {
           arr.push(item);
         } else {
           arr1.push(item);
         }
         newArr = [...arr, ...arr1];
       });
-      console.log(arr1, "arr1");
-      // 将选中的列加一个属性fixed
+      // 将选中的列加一个属性fixed;
       this.columns = newArr.map((item) => {
         if (this.defaultFixedColumnSelect.includes(item.key)) {
           return {
@@ -194,6 +197,22 @@ export default {
           };
         }
       });
+      // 将选中的列和未选中的列排序存放到newArr数组中  方法二
+      // let arr = JSON.parse(JSON.stringify(this.cloneCloumns));
+      // let arr1 = JSON.parse(JSON.stringify(this.cloneCloumns));
+      // arr = arr.filter((item) => {
+      //   if (this.defaultFixedColumnSelect.includes(item.key)) {
+      //     item.fixed = true;
+      //     return item;
+      //   }
+      // });
+      // arr1 = arr1.filter((item) => {
+      //   if (!this.defaultFixedColumnSelect.includes(item.key)) {
+      //     item.fixed = false;
+      //     return item;
+      //   }
+      // });
+      // this.columns = [...arr, ...arr1];
     },
   },
 };
