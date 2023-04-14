@@ -105,8 +105,7 @@ router.beforeEach((_to, _from, next) => {
   Nprogress.start();
   next();
 });
-router.afterEach((to, from) => {
-  console.log(from);
+router.afterEach((to) => {
   Nprogress.done();
   document.title = to.meta.title;
 });

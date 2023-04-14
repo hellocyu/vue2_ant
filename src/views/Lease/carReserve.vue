@@ -1,16 +1,14 @@
 <template>
   <div>
     <!-- 表格列动态变换，随着时间的不同列也不同 -->
-    <div>
-      <a-form class="formStyle" :form="form">
-        <a-form-item label="MonthPicker" class="formItemStyle">
-          <a-month-picker v-model="dateValue" @change="initMonths" />
-        </a-form-item>
-        <a-form-item label="Note" class="formItemStyle">
-          <a-input />
-        </a-form-item>
-      </a-form>
-    </div>
+    <a-form layout="inline" :form="form" class="formStyle">
+      <a-form-item label="MonthPicker">
+        <a-month-picker v-model="dateValue" @change="initMonths" />
+      </a-form-item>
+      <a-form-item label="Note">
+        <a-input />
+      </a-form-item>
+    </a-form>
     <a-table
       :columns="columns"
       :data-source="data"
@@ -109,13 +107,9 @@ export default {
 
 <style scoped>
 .formStyle {
-  display: flex;
+  margin-bottom: 20px;
 }
-.tableStyle {
+/* .tableStyle {
   overflow-x: scroll;
-}
-.formItemStyle {
-  display: flex;
-  margin-right: 10px;
-}
+} */
 </style>

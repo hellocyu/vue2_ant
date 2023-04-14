@@ -1,5 +1,25 @@
 <template>
   <div>
+    <div class="formStyle">
+      <a-form :form="form" layout="inline" class="formItemStyle">
+        <a-form-item label="Note">
+          <a-input v-decorator="['note']" />
+        </a-form-item>
+        <a-form-item label="Gender">
+          <a-select v-decorator="['gender']">
+            <a-select-option value="male"> male </a-select-option>
+            <a-select-option value="female"> female </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="date">
+          <a-range-picker @change="onChange" v-decorator="['date']" />
+        </a-form-item>
+      </a-form>
+      <div>
+        <a-button class="reset" @click="form.resetFields()">重置</a-button>
+        <a-button type="primary" @click="search"> 查询 </a-button>
+      </div>
+    </div>
     <!-- 选择列固定 -->
     <a-table
       :columns="columns"
@@ -15,139 +35,17 @@
         >
           {{ item.slots.title }}
         </a-checkbox>
-        <!-- <span :key="item.key">{{ item.slots.title }}</span> -->
       </template>
     </a-table>
   </div>
 </template>
 <script>
-const columns = [
-  {
-    // title: "Name",
-    dataIndex: "name",
-    key: "name",
-    slots: { title: "Name" },
-    width: 200,
-    // scopedSlots: { customRender: "name" },
-  },
-  {
-    // title: "Age",
-    dataIndex: "age",
-    key: "age",
-    slots: { title: "Age" },
-    width: 200,
-  },
-  {
-    // title: "Address",
-    dataIndex: "address",
-    key: "address",
-    slots: { title: "Address" },
-    width: 200,
-  },
-  {
-    // title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    scopedSlots: { customRender: "tags" },
-    slots: { title: "Tags" },
-    width: 200,
-  },
-  {
-    // title: "Test1",
-    key: "test1",
-    dataIndex: "test1",
-    scopedSlots: { customRender: "test1" },
-    slots: { title: "Test1" },
-    width: 200,
-  },
-  {
-    // title: "Test2",
-    key: "test2",
-    dataIndex: "test2",
-    scopedSlots: { customRender: "test2" },
-    slots: { title: "Test2" },
-    width: 200,
-  },
-  {
-    // title: "Test3",
-    key: "test3",
-    dataIndex: "test3",
-    scopedSlots: { customRender: "test3" },
-    slots: { title: "Test3" },
-    width: 200,
-  },
-  {
-    // title: "Test4",
-    key: "test4",
-    dataIndex: "test4",
-    scopedSlots: { customRender: "test4" },
-    slots: { title: "Test4" },
-    width: 200,
-  },
-  {
-    // title: "Test5",
-    key: "test5",
-    dataIndex: "test5",
-    scopedSlots: { customRender: "test5" },
-    slots: { title: "Test5" },
-    width: 200,
-  },
-  {
-    // title: "Test6",
-    key: "test6",
-    dataIndex: "test6",
-    scopedSlots: { customRender: "test6" },
-    slots: { title: "Test6" },
-    width: 200,
-  },
-];
-
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: "nice",
-    test1: 33,
-    test2: 33,
-    test3: 33,
-    test4: 33,
-    test5: 33,
-    test6: 33,
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: "loser",
-    test1: 33,
-    test2: 33,
-    test3: 33,
-    test4: 33,
-    test5: 33,
-    test6: 33,
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: "cool",
-    test1: 33,
-    test2: 33,
-    test3: 33,
-    test4: 33,
-    test5: 33,
-    test6: 33,
-  },
-];
-
+import { columns, data } from "./config/columns";
 export default {
   name: "carInfo",
   data() {
     return {
+      form: this.$form.createForm(this, { name: "coordinated" }),
       data,
       columns,
       fixedColumnFlag: "order-tracking",
@@ -159,6 +57,13 @@ export default {
     this.cloneCloumns = JSON.parse(JSON.stringify(this.columns));
   },
   methods: {
+    onChange(date, dateString) {
+      console.log(date, dateString);
+    },
+    search() {
+      const data = this.form.getFieldsValue();
+      console.log(data);
+    },
     onFixedColumn(value) {
       // 将选中的列存放入defaultFixedColumnSelect数组中
       const ind = this.defaultFixedColumnSelect.indexOf(value.key);
@@ -218,4 +123,18 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+/deep/.ant-form-item-control {
+  width: 200px;
+}
+.formStyle {
+  display: flex;
+  justify-content: space-between;
+}
+.formItemStyle {
+  margin-bottom: 20px;
+}
+.reset {
+  margin-right: 10px;
+}
+</style>
