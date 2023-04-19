@@ -15,6 +15,8 @@
         mode="inline"
         :default-selected-keys="selectKeys"
         :defaultOpenKeys="openKeys"
+        :open-keys="openKeys"
+        @openChange="onOpenChange"
       >
         <a-sub-menu v-for="item in minMenus" :key="item.title">
           <template #title>
@@ -26,7 +28,7 @@
           <a-menu-item
             v-for="item1 in item.children"
             :key="item1.title"
-            @click="$router.push(item1.path)"
+            @click="itemClick(item1.path)"
             >{{ item1.title }}</a-menu-item
           >
         </a-sub-menu>
@@ -86,6 +88,7 @@ export default {
   name: "userLayout",
   data() {
     return {
+      openKeys: ["车辆管理"],
       collapsed: false,
       minMenus: [
         {
@@ -188,7 +191,6 @@ export default {
         },
       ],
       selectKeys: [],
-      openKeys: ["车辆管理"],
     };
   },
   created() {
@@ -199,6 +201,31 @@ export default {
       this.selectKeys = [this.$route.meta.title];
       this.openKeys = [this.$route.meta.module];
     }
+  },
+  computed: {
+    rootSubmenuKeys() {
+      let rootSubmenuKeys = [];
+      for (const item of this.minMenus) {
+        rootSubmenuKeys.push(item.title);
+      }
+      return rootSubmenuKeys;
+    },
+  },
+  methods: {
+    // 每次只展开一个菜单
+    onOpenChange(openKeys) {
+      const latestOpenKey = openKeys.find(
+        (key) => this.openKeys.indexOf(key) === -1
+      );
+      if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+        this.openKeys = openKeys;
+      } else {
+        this.openKeys = latestOpenKey ? [latestOpenKey] : [];
+      }
+    },
+    itemClick(path) {
+      path === this.$route.path || this.$router.push(path);
+    },
   },
 };
 </script>
