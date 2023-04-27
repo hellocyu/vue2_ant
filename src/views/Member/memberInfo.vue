@@ -1,5 +1,5 @@
 <template>
-  <div>memberInfo</div>
+  <div>会员信息</div>
 </template>
 
 <script>
