@@ -14,6 +14,12 @@ const router = new Router({
       component: () => import("../views/Login"),
     },
     {
+      path: "/workshop/:workshopId",
+      name: "WorkShop",
+      meta: { title: "工作区间" },
+      component: () => import("../views/WorkShop"),
+    },
+    {
       path: "/layout",
       name: "layout",
       component: () => import("../views/Layout"),
