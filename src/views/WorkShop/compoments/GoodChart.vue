@@ -8,6 +8,7 @@ export default {
   data() {
     return {
       finallyData: "",
+      clientW: document.documentElement.clientWidth,
       // other: "",
     };
   },
@@ -16,6 +17,9 @@ export default {
     this.init();
   },
   methods: {
+    getFontSize(num) {
+      return (this.clientW / 1336) * num;
+    },
     getFinallyData() {
       this.finallyData = 0.97;
     },
@@ -39,13 +43,13 @@ export default {
             textStyle: {
               rich: {
                 total: {
-                  fontSize: 40,
+                  fontSize: this.getFontSize(40),
                   fontWeight: 600,
-                  color: "#d19a66",
+                  color: "#028002",
                   padding: [10, 0],
                 },
                 name: {
-                  fontSize: 15,
+                  fontSize: this.getFontSize(20),
                   fontWeight: 600,
                   color: "#666666",
                 },
@@ -156,7 +160,7 @@ export default {
 
 <style scoped>
 .goodChart {
-  width: 100%;
+  width: 70%;
   height: 100%;
   /* background-color: pink; */
 }

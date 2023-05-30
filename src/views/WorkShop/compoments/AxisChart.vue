@@ -22,12 +22,16 @@ export default {
         "19:40 - 20:40",
       ],
       palceNum: [45, 11, 22, 63, 33, 44, 54, 55, 66, 200, 77, 88],
+      clientW: document.documentElement.clientWidth,
     };
   },
   mounted() {
     this.placeCharts();
   },
   methods: {
+    getFontSize(num) {
+      return (this.clientW / 1336) * num;
+    },
     placeCharts() {
       let myChart = this.$echarts.init(this.$refs.axisChart);
       myChart.setOption({
@@ -46,6 +50,7 @@ export default {
             // splitNumber: 5,
             axisLabel: {
               formatter: "{value} ",
+              fontSize: 20,
             },
             splitLine: {
               //x轴网格线
@@ -62,6 +67,10 @@ export default {
         yAxis: [
           {
             type: "category",
+            axisLabel: {
+              fontSize: this.getFontSize(10),
+              fontWeight: 900,
+            },
             offset: 0,
             axisLine: {
               //这是x轴文字颜色
@@ -80,6 +89,38 @@ export default {
         ],
         series: [
           {
+            markLine: {
+              slient: true,
+              data: [
+                {
+                  name: "目标值",
+                  lineStyle: {
+                    color: "blue",
+                  },
+                  xAxis: 180,
+                  label: {
+                    normal: {
+                      formatter: "90%",
+                      fontSize: 20,
+                    },
+                  },
+                },
+                {
+                  // name: "目标值",
+                  xAxis: 160,
+                  lineStyle: {
+                    color: "yellow",
+                  },
+                  label: {
+                    normal: {
+                      formatter: "85%",
+                      fontSize: 20,
+                    },
+                  },
+                },
+              ],
+              symbol: "none",
+            },
             data: this.palceNum,
             type: "bar",
             barWidth: 20,

@@ -5,12 +5,20 @@
 <script>
 export default {
   name: "oeeChart",
+  data() {
+    return {
+      clientW: document.documentElement.clientWidth,
+    };
+  },
   mounted() {
     this.drawPine();
   },
   methods: {
+    getFontSize(num) {
+      return (this.clientW / 1336) * num;
+    },
     getTotal() {
-      return 88;
+      return 83;
     },
     drawPine() {
       let chart = this.$echarts.init(this.$refs.oeeChart);
@@ -25,13 +33,13 @@ export default {
             textStyle: {
               rich: {
                 total: {
-                  fontSize: 40,
+                  fontSize: this.getFontSize(40),
                   fontWeight: 600,
                   color: "#d19a66",
-                  padding: [10, 0],
+                  padding: [20, 0],
                 },
                 name: {
-                  fontSize: 15,
+                  fontSize: this.getFontSize(20),
                   fontWeight: 600,
                   color: "#666666",
                 },
@@ -46,7 +54,7 @@ export default {
           {
             type: "pie",
             radius: ["90%", "50%"],
-            color: ["#fad352", "#ffff"],
+            color: ["red", "#ffff"],
             center: ["50%", "50%"],
             label: {
               show: false,
@@ -58,7 +66,7 @@ export default {
             itemStyle: {
               normal: {
                 border: 20,
-                borderColor: "#fad352",
+                borderColor: "red",
                 // label: {
                 //   show: true,
                 //   position: "center",
