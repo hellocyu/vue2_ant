@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-button @click="onClick">按钮</a-button>
+    <a-button @click="onClick">选中某一行及其后面所有</a-button>
     <a-table
       :row-selection="rowSelection"
       :columns="columns"

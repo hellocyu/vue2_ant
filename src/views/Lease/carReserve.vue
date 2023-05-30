@@ -13,6 +13,7 @@
       :columns="columns"
       :data-source="data"
       class="tableStyle"
+      :scroll="{ x: 2000 }"
     ></a-table>
   </div>
 </template>
@@ -23,6 +24,7 @@ const columns = [
   {
     title: "name",
     dataIndex: "name",
+    with: 100,
     key: "name",
     scopedSlots: { customRender: "name" },
   },
@@ -30,17 +32,20 @@ const columns = [
     title: "Age",
     dataIndex: "age",
     key: "age",
+    with: 50,
   },
   {
     title: "Address",
     dataIndex: "address",
     key: "address",
+    width: 200,
   },
   {
     title: "Tags",
     key: "tags",
     dataIndex: "tags",
     scopedSlots: { customRender: "tags" },
+    with: 100,
   },
 ];
 const data = [

@@ -55,6 +55,9 @@
             <a-button type="primary" html-type="submit" @click="timeSubmit">
               提交
             </a-button>
+            <a-button type="primary" html-type="submit" @click="test">
+              获取每个对象中的最大值
+            </a-button>
           </a-form-item>
         </a-form>
         <!-- <a-range-picker @change="onChange" /> -->
@@ -65,6 +68,7 @@
 
 <script>
 import moment from "moment";
+import { objectMaxValue } from "@/utils/maxValue";
 export default {
   name: "carLease",
   data() {
@@ -79,6 +83,9 @@ export default {
     this.$created();
   },
   methods: {
+    test() {
+      objectMaxValue();
+    },
     $created() {
       this.$_index = 0;
       this.form.getFieldDecorator("keys", {
