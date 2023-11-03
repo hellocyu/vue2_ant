@@ -14,6 +14,14 @@
         <a-form-item label="date">
           <a-range-picker @change="onChange" v-decorator="['date']" />
         </a-form-item>
+        <a-form-item label="num">
+          <a-select v-decorator="['num']" mode="multiple">
+            <a-select-option value="1"> 1 </a-select-option>
+            <a-select-option value="2"> 2 </a-select-option>
+            <a-select-option value="3"> 3 </a-select-option>
+            <a-select-option value="4"> 4 </a-select-option>
+          </a-select>
+        </a-form-item>
       </a-form>
       <div>
         <a-button class="reset" @click="form.resetFields()">重置</a-button>
