@@ -16,7 +16,7 @@
       <div class="tbody">
         <div class="tr" v-for="row in rows" :key="row">
           <div class="td" v-for="col in cols" :key="col">
-            <span> {{ $_Get_Day_From_Days(row, col) }} </span>
+            <span :class="$_Get_Class(row,col)" class="calendar-month__cell" @click="()=>onClickDay(row,col)"> {{ $_Get_Day_From_Days(row, col) }} </span>
           </div>
         </div>
       </div>
@@ -53,6 +53,10 @@ export default {
       type: [String, Number],
       default: "",
     },
+    current: {
+      type: String,
+      default: undefined
+    }
   },
   data() {
     return {
@@ -66,10 +70,10 @@ export default {
       let row = 0;
       const length = this.getMonthLength(this.year, this.month);
       return getArrayByLength(length)
-        .map((_, i) => i + 1)
+        .map((_, i) => i + 1)  // [1,2,3,4...,30]
         .reduce((acc, item) => {
           const date = this.formDate(this.year, this.month, item);
-          const day = moment(date).day();
+          const day = moment(date).day(); //若当天是周日则返回0
           const status = [WEEK_SUNDAY, WEEK_SATURDAY].includes(day)
             ? EVENT_STATUS.REST_DAY
             : EVENT_STATUS.WORK_DAY;
@@ -102,10 +106,12 @@ export default {
   },
   methods: {
     $_Get_Day_From_Days(row, col) {
-      console.log(this.days);
+      // console.log(this.days);
       return this.days?.[row]?.[col]?.day || undefined;
     },
+    //得到每个月的天数
     getMonthLength(year, month) {
+      //每四年2月会为29天
       const leap = Number(year) % 4 === 0;
       const isFebruary = Number(month) === FEBRUARY;
       return BIG_MONTH.includes(month)
@@ -116,6 +122,7 @@ export default {
           : 28
         : 30;
     },
+    //返回日期的格式 2024-05-12
     formDate(year, month, day) {
       return `${year}-${`00${month}`.slice(-2)}-${`00${day}`.slice(-2)}`;
     },
@@ -139,6 +146,24 @@ export default {
         disabled: true,
       }));
     },
+    onClickDay(row, col) {
+      //这里需要将current值传给父组件 然后再props过来 因为执行顺序的不同和渲染顺序的不同吧 props的值先触发
+      const date = this.days?.[row]?.[col]?.date
+      this.$emit('update:current', date)
+      this.$emit('click',date)
+    },
+    //给每天标记相应的背景颜色
+    $_Get_Class(row, col) {
+      const date = this.days?.[row]?.[col]?.date
+      const {status} = this.days?.[row]?.[col]
+      return [
+        `cell_${date}`,
+        this.days?.[row]?.[col]?.disabled === true ? 'calendar-month__cell--disabled' : '',
+        this.current === date ? 'calendar-month__cell--active' : '',
+        typeof status !== 'undefined' ? `calendar-month__cell--${status}` : ''
+      
+      ]
+    }
   },
 };
 </script>
@@ -176,10 +201,45 @@ export default {
   justify-content: flex-start; */
 }
 .table .tbody .tr .td {
-  height: 20px;
-  width: 20px;
-  background-color: pink;
+  /* height: 20px;
+  width: 20px; */
   text-align: center;
+  cursor: pointer;
   /* padding: 2px; */
+}
+.calendar-month__cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 14px;
+  width: 20px;
+  font-family: '微软雅黑';
+  font-size: 12px;
+  background-color: #f9fafb;
+}
+.calendar-month__cell--disabled {
+  color: #bebfc1;
+  background-color: #fff;
+  cursor: not-allowed;
+}
+.calendar-month__cell--active {
+  transform: scale(1.1);
+  border-color: #10b981 !important;
+  background-color: #10b981 !important;
+}
+.calendar-month__cell--0 {
+  background-color: rgba(38,99,234,0.1);
+  color: #2663EA;
+  border-color: transparent;
+}
+.calendar-month__cell--1 {
+  background-color: #E60012;
+  color: #E60012;
+  border-color: transparent;
+}
+.calendar-month__cell--2 {
+  background-color: #97979730;
+  color: #979797;
+  border-color: transparent;
 }
 </style>

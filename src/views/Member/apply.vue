@@ -5,6 +5,8 @@
       :key="month"
       :month="month"
       :year="year"
+      :current.sync="current"
+      @click="handlerClick"
     ></Month>
   </div>
 </template>
@@ -21,8 +23,14 @@ export default {
     return {
       MONTH_COUNT: 12,
       year: moment().year(),
+      current: moment().format("YYYY-MM-DD")
     };
   },
+  methods: {
+    handlerClick(date) {
+      this.current = date
+    }
+  }
 };
 </script>
 
