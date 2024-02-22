@@ -129,7 +129,7 @@ export default {
         {
           children: [
             {
-              title: "会员申请",
+              title: "年度日历",
               component: "Member/apply",
               name: "apply",
               path: "/apply",

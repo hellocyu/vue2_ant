@@ -150,7 +150,8 @@ export default {
       //这里需要将current值传给父组件 然后再props过来 因为执行顺序的不同和渲染顺序的不同吧 props的值先触发
       const date = this.days?.[row]?.[col]?.date
       this.$emit('update:current', date)
-      this.$emit('click',date)
+      this.$emit('click', date)
+      console.log(row,col)
     },
     //给每天标记相应的背景颜色
     $_Get_Class(row, col) {

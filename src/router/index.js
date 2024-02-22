@@ -64,7 +64,7 @@ const router = new Router({
         {
           path: "/apply",
           name: "apply",
-          meta: { title: "会员申请", module: "会员管理" },
+          meta: { title: "年度日历", module: "会员管理" },
           component: () => import("../views/Member/apply.vue"),
         },
         {
